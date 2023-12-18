@@ -10,7 +10,7 @@ import (
 
 // define a new interface for journal
 type Client interface {
-	Read(title string) (*j.Journal, error)
+	Read(id int) (*j.Journal, error)
 	Save(j *j.Journal) error
 	Delete(id int) error
 	ListAll() ([]*j.Journal, error)
@@ -30,8 +30,9 @@ func NewJournalService(jc Client) *Service {
 }
 
 // Create a new journal
-func (s *Service) Create(title string, content string) (*j.Journal, error) {
-	journal, err := j.NewJournal(title, content)
+func (s *Service) Create(title string, content string, tags string) (*j.Journal, error) {
+	tagsSlice := strings.Split(tags, ",")
+	journal, err := j.NewJournal(title, content, tagsSlice)
 	if err != nil {
 		return nil, err
 	}
@@ -102,4 +103,27 @@ func (s *Service) SortDesc() ([]*j.Journal, error) {
 	})
 
 	return journals, nil
+}
+
+func (s *Service) AddTags(id int, tags string) (*j.Journal, error) {
+	journal, err := s.client.Read(id)
+	if err != nil {
+		return nil, err
+	}
+
+	journal.AddTags(cleanup(tags))
+	return journal, s.client.Save(journal)
+}
+
+func cleanup(tags string) []string {
+	tagsSlice := strings.Split(tags, ",")
+	var cleanedTags []string
+	for _, tag := range tagsSlice {
+		tag = strings.TrimSpace(tag)
+		if tag == "" {
+			continue
+		}
+		cleanedTags = append(cleanedTags, tag)
+	}
+	return cleanedTags
 }

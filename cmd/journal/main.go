@@ -49,12 +49,28 @@ var flags = []f.FlagDef{
 		Help:   "sort journals by title, takes value asc or desc",
 		IsBool: false,
 	},
+	{
+		Name:   "tags",
+		Help:   "tags to add to the journal",
+		IsBool: false,
+	},
+	{
+		Name:   "id",
+		Help:   "id of the journal to process",
+		IsBool: false,
+	},
 }
+
+// .journal --tags "a,b,c" --id=1
 
 // .journal --sort asc
 // .journal --filter "Title of the journal to filter"
 
 // ./journal --delete "Title of the journal to delete"
+
+//.journal --filter="title"
+//.journal --filter="a, b, c"
+//.journal --fliter --title="title" --tags="a,b,c"
 
 func main() {
 
@@ -81,7 +97,7 @@ func main() {
 	switch cmd {
 	case "create":
 		// create a new journal
-		runCreate(js, args["title"], args["create"])
+		runCreate(js, args["title"], args["create"], args["tags"])
 	case "list":
 		// list all journals
 		runList(js)
@@ -97,6 +113,9 @@ func main() {
 	case "sort":
 		// sort journals by title
 		runSort(js, args["sort"])
+	case "tags":
+		// add tags to a journal
+		runTags(js, args["tags"], args["id"])
 	default:
 		fmt.Println("Invalid command, run --help to see the list of commands")
 	}

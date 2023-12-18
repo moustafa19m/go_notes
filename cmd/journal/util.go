@@ -27,9 +27,9 @@ func printHelp() {
 	println(helpMessage)
 }
 
-func runCreate(js *service.Service, title string, content string) {
+func runCreate(js *service.Service, title string, content string, tags string) {
 	// create a new journal
-	_, err := js.Create(title, content)
+	_, err := js.Create(title, content, tags)
 	if err != nil {
 		fmt.Printf("failed to create new journal: %s\n", err.Error())
 		os.Exit(1)
@@ -45,6 +45,25 @@ func runList(js *service.Service) {
 		os.Exit(1)
 	}
 	data, err := json.MarshalIndent(journals, "", "    ")
+	if err != nil {
+		fmt.Printf("failed to marshal journals: %s\n", err.Error())
+		os.Exit(1)
+	}
+	fmt.Println(string(data))
+}
+
+func runTags(js *service.Service, tags string, id string) {
+	intId, err := strconv.Atoi(id)
+	if err != nil {
+		fmt.Printf("failed to convert id (%s) to int: %s\n", id, err.Error())
+		os.Exit(1)
+	}
+	journal, err := js.AddTags(intId, tags)
+	if err != nil {
+		fmt.Printf("failed to add tags to journal: %s\n", err.Error())
+		os.Exit(1)
+	}
+	data, err := json.MarshalIndent(journal, "", "    ")
 	if err != nil {
 		fmt.Printf("failed to marshal journals: %s\n", err.Error())
 		os.Exit(1)

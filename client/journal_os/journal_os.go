@@ -53,8 +53,13 @@ func (jc Client) JournalExists(id int) bool {
 	return false
 }
 
-func (jc Client) Read(title string) (*j.Journal, error) {
-	return nil, nil
+func (jc Client) Read(id int) (*j.Journal, error) {
+	for _, journal := range jc.journals {
+		if journal.Id == id {
+			return journal, nil
+		}
+	}
+	return nil, fmt.Errorf("journal with id (%d) does not exist", id)
 }
 
 func (jc Client) createId() int {
@@ -63,10 +68,16 @@ func (jc Client) createId() int {
 }
 
 func (jc Client) Save(j *j.Journal) error {
-	j.Id = jc.createId()
-
-	jc.journals = append(jc.journals, j)
-
+	if j.Id == 0 {
+		j.Id = jc.createId()
+		jc.journals = append(jc.journals, j)
+	} else {
+		for i, journal := range jc.journals {
+			if journal.Id == j.Id {
+				jc.journals[i] = j
+			}
+		}
+	}
 	return jc.saveFile()
 }
 

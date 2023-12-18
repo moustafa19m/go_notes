@@ -1,1 +1,1 @@
-[{"id":1,"content":"entry4","title":"Title4"},{"id":2,"content":"entry2","title":"Title2"},{"id":3,"content":"entry1","title":"Title1"},{"id":4,"content":"entry3","title":"Title3"}]
+[{"id":1,"content":"abc","tags":["summer","trip"],"title":"abc"},{"id":2,"content":"def","tags":["winter","trip"],"title":"abc"},{"id":3,"content":"abc","tags":["","fall"],"title":"def"},{"id":4,"content":"def","tags":["trip","."],"title":"def"}]
