@@ -11,6 +11,7 @@ import (
 type Client struct {
 	filename string
 	journals []*j.Journal
+	latestId int
 }
 
 func NewJournalOs(filename string) (Client, error) {
@@ -29,21 +30,52 @@ func NewJournalOs(filename string) (Client, error) {
 	return Client{
 		filename: filename,
 		journals: journals,
+		latestId: journals[len(journals)-1].Id,
 	}, nil
+}
+
+func (jc Client) Delete(id int) error {
+	for i, journal := range jc.journals {
+		if journal.Id == id {
+			jc.journals = append(jc.journals[:i], jc.journals[i+1:]...)
+			return jc.saveFile()
+		}
+	}
+	return fmt.Errorf("journal with id (%d) does not exist", id)
+}
+
+func (jc Client) JournalExists(id int) bool {
+	for _, journal := range jc.journals {
+		if journal.Id == id {
+			return true
+		}
+	}
+	return false
 }
 
 func (jc Client) Read(title string) (*j.Journal, error) {
 	return nil, nil
 }
 
+func (jc Client) createId() int {
+	jc.latestId += 1
+	return jc.latestId
+}
+
 func (jc Client) Save(j *j.Journal) error {
+	j.Id = jc.createId()
+
+	jc.journals = append(jc.journals, j)
+
+	return jc.saveFile()
+}
+
+func (jc Client) saveFile() error {
 	file, err := os.OpenFile(jc.filename, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
 	if err != nil {
 		return err
 	}
 	defer file.Close()
-
-	jc.journals = append(jc.journals, j)
 
 	data, err := json.Marshal(jc.journals)
 	if err != nil {

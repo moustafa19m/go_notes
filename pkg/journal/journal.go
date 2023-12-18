@@ -3,6 +3,7 @@ package journal
 import "errors"
 
 type Journal struct {
+	Id      int    `json:"id"`
 	Content string `json:"content"`
 	Title   string `json:"title"`
 }

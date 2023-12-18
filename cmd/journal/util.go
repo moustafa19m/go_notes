@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strconv"
 
 	service "github.com/moustafa19m/apple_interview/service/journal"
 )
@@ -47,4 +48,19 @@ func runList(js *service.Service) {
 		os.Exit(1)
 	}
 	fmt.Println(string(data))
+}
+
+func runDelete(js *service.Service, id string) {
+	// delete a journal
+	intId, err := strconv.Atoi(id)
+	if err != nil {
+		fmt.Printf("failed to convert id to int: %s\n", err.Error())
+		os.Exit(1)
+	}
+	err = js.Delete(intId)
+	if err != nil {
+		fmt.Printf("failed to delete journal: %s\n", err.Error())
+		os.Exit(1)
+	}
+	fmt.Printf("Journal with id (%d) deleted successfully\n", intId)
 }

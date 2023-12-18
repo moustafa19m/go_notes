@@ -8,6 +8,9 @@ rm /Users/moustafamakhlouf/Documents/apple_interview/saved/journals.json
 ./journal -create "entry3" -title "Title3"
 ./journal -create="entry4" -title="Title4"
 ./journal --list
+./journal --delete "2" 
+./journal --delete="2" 
+./journal --list
 # ./journal -list
 # ./journal -list=true
 # ./journal --list=true

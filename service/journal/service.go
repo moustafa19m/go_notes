@@ -8,6 +8,7 @@ import (
 type Client interface {
 	Read(title string) (*j.Journal, error)
 	Save(j *j.Journal) error
+	Delete(id int) error
 	ListAll() ([]*j.Journal, error)
 }
 
@@ -40,4 +41,9 @@ func (s *Service) Create(title string, content string) (*j.Journal, error) {
 // List all journals
 func (s *Service) ListAll() ([]*j.Journal, error) {
 	return s.client.ListAll()
+}
+
+// Delete a journal
+func (s *Service) Delete(id int) error {
+	return s.client.Delete(id)
 }

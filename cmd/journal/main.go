@@ -34,6 +34,12 @@ var flags = []f.FlagDef{
 		Help:   "print help",
 		IsBool: true,
 	},
+	{
+		Name:   "delete",
+		Help:   "delete a journal, requires a title",
+		IsBool: false,
+	},
+	// ./journal --delete "Title of the journal to delete"
 }
 
 func main() {
@@ -65,10 +71,12 @@ func main() {
 	case "list":
 		// list all journals
 		runList(js)
-
 	case "help":
 		// print help
 		printHelp()
+	case "delete":
+		// delete a journal
+		runDelete(js, args["delete"])
 	default:
 		fmt.Println("Invalid command, run --help to see the list of commands")
 	}
