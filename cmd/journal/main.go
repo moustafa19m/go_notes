@@ -39,8 +39,22 @@ var flags = []f.FlagDef{
 		Help:   "delete a journal, requires a title",
 		IsBool: false,
 	},
-	// ./journal --delete "Title of the journal to delete"
+	{
+		Name:   "filter",
+		Help:   "filter journals by title",
+		IsBool: false,
+	},
+	{
+		Name:   "sort",
+		Help:   "sort journals by title, takes value asc or desc",
+		IsBool: false,
+	},
 }
+
+// .journal --sort asc
+// .journal --filter "Title of the journal to filter"
+
+// ./journal --delete "Title of the journal to delete"
 
 func main() {
 
@@ -77,6 +91,12 @@ func main() {
 	case "delete":
 		// delete a journal
 		runDelete(js, args["delete"])
+	case "filter":
+		// filter journals by title
+		runFilter(js, args["filter"])
+	case "sort":
+		// sort journals by title
+		runSort(js, args["sort"])
 	default:
 		fmt.Println("Invalid command, run --help to see the list of commands")
 	}

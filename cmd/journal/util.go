@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 
+	j "github.com/moustafa19m/apple_interview/pkg/journal"
+
 	service "github.com/moustafa19m/apple_interview/service/journal"
 )
 
@@ -63,4 +65,42 @@ func runDelete(js *service.Service, id string) {
 		os.Exit(1)
 	}
 	fmt.Printf("Journal with id (%d) deleted successfully\n", intId)
+}
+
+func runFilter(js *service.Service, title string) {
+	// filter journals by title
+	journals, err := js.Filter(title)
+	if err != nil {
+		fmt.Printf("failed to filter journals: %s\n", err.Error())
+		os.Exit(1)
+	}
+	data, err := json.MarshalIndent(journals, "", "    ")
+	if err != nil {
+		fmt.Printf("failed to marshal journals: %s\n", err.Error())
+		os.Exit(1)
+	}
+	fmt.Println(string(data))
+}
+
+func runSort(js *service.Service, sortOrder string) {
+	var journals []*j.Journal
+	var err error
+	switch sortOrder {
+	case "desc":
+		journals, err = js.SortDesc()
+	case "asc", "":
+		journals, err = js.SortAsc()
+	default:
+		fmt.Printf("invalid sort order: %s\n", sortOrder)
+	}
+	if err != nil {
+		fmt.Printf("failed to sort journals: %s\n", err.Error())
+		os.Exit(1)
+	}
+	data, err := json.MarshalIndent(journals, "", "    ")
+	if err != nil {
+		fmt.Printf("failed to marshal journals: %s\n", err.Error())
+		os.Exit(1)
+	}
+	fmt.Println(string(data))
 }

@@ -1,6 +1,10 @@
 package journal
 
 import (
+	"fmt"
+	"sort"
+	"strings"
+
 	j "github.com/moustafa19m/apple_interview/pkg/journal"
 )
 
@@ -46,4 +50,56 @@ func (s *Service) ListAll() ([]*j.Journal, error) {
 // Delete a journal
 func (s *Service) Delete(id int) error {
 	return s.client.Delete(id)
+}
+
+// filter by title
+func (s *Service) Filter(title string) ([]*j.Journal, error) {
+	journals, err := s.client.ListAll()
+	if err != nil {
+		return nil, err
+	}
+
+	var filteredJournals []*j.Journal
+	for _, journal := range journals {
+		search := strings.ToLower(title)
+		currenTitle := strings.ToLower(journal.Title)
+
+		if strings.Contains(currenTitle, search) {
+			filteredJournals = append(filteredJournals, journal)
+		}
+	}
+	if len(filteredJournals) == 0 {
+		return nil, fmt.Errorf("no journals found with title matches to (%s)", title)
+	}
+	return filteredJournals, nil
+}
+
+func (s *Service) SortAsc() ([]*j.Journal, error) {
+	journals, err := s.client.ListAll()
+	if err != nil {
+		return nil, err
+	}
+
+	sort.Slice(journals, func(i, j int) bool {
+		str1 := strings.Join([]string{journals[i].Title, journals[i].Content}, "")
+		str2 := strings.Join([]string{journals[j].Title, journals[j].Content}, "")
+		return strings.Compare(str1, str2) < 0
+	})
+
+	return journals, nil
+}
+
+func (s *Service) SortDesc() ([]*j.Journal, error) {
+	journals, err := s.client.ListAll()
+	if err != nil {
+		return nil, err
+	}
+
+	sort.Slice(journals, func(i, j int) bool {
+		str1 := strings.Join([]string{journals[i].Title, journals[i].Content}, "")
+		str2 := strings.Join([]string{journals[j].Title, journals[j].Content}, "")
+		return strings.Compare(str1, str2) > 0
+	})
+
+	return journals, nil
 }
