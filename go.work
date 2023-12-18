@@ -1,0 +1,10 @@
+go 1.21.4
+
+use (
+	.
+	./client/journal_os
+	./cmd/journal
+	./pkg/flags
+	./pkg/journal
+	./service/journal
+)
