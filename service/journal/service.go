@@ -115,6 +115,25 @@ func (s *Service) AddTags(id int, tags string) (*j.Journal, error) {
 	return journal, s.client.Save(journal)
 }
 
+func (s *Service) Analyze() (map[string]int, error) {
+	journals, err := s.client.ListAll()
+	if err != nil {
+		return nil, nil
+	}
+	words := []string{}
+	for _, journal := range journals {
+		words = append(words, strings.Split(journal.Content, " ")...)
+		words = append(words, strings.Split(journal.Title, " ")...)
+	}
+
+	wordsMap := make(map[string]int)
+	for _, word := range words {
+		wordsMap[word]++
+	}
+
+	return wordsMap, nil
+}
+
 func cleanup(tags string) []string {
 	tagsSlice := strings.Split(tags, ",")
 	var cleanedTags []string

@@ -59,11 +59,17 @@ var flags = []f.FlagDef{
 		Help:   "id of the journal to process",
 		IsBool: false,
 	},
+	{
+		Name:   "analyze",
+		Help:   "analyze the journal",
+		IsBool: true,
+	},
 }
 
 // .journal --tags "a,b,c" --id=1
 
 // .journal --sort asc
+// .journal --sort
 // .journal --filter "Title of the journal to filter"
 
 // ./journal --delete "Title of the journal to delete"
@@ -116,6 +122,9 @@ func main() {
 	case "tags":
 		// add tags to a journal
 		runTags(js, args["tags"], args["id"])
+	case "analyze":
+		// analyze a journal
+		runAnalyze(js)
 	default:
 		fmt.Println("Invalid command, run --help to see the list of commands")
 	}
