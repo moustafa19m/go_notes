@@ -7,9 +7,9 @@ import (
 	"sort"
 	"strconv"
 
-	j "github.com/moustafa19m/apple_interview/pkg/journal"
+	j "github.com/moustafa19m/go_notes/pkg/journal"
 
-	service "github.com/moustafa19m/apple_interview/service/journal"
+	service "github.com/moustafa19m/go_notes/service/journal"
 )
 
 func printHelp() {

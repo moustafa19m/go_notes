@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	j "github.com/moustafa19m/apple_interview/pkg/journal"
+	j "github.com/moustafa19m/go_notes/pkg/journal"
 )
 
 type Client struct {

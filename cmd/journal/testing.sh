@@ -2,7 +2,7 @@
 # Description: Testing script for journal
 
 #!/bin/bash
-rm /Users/moustafamakhlouf/Documents/apple_interview/saved/journals.json
+rm /Users/moustafamakhlouf/Documents/go_notes/saved/journals.json
 
 
 

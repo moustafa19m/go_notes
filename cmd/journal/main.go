@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"os"
 
-	client "github.com/moustafa19m/apple_interview/client/journal_os"
-	f "github.com/moustafa19m/apple_interview/pkg/flags"
-	service "github.com/moustafa19m/apple_interview/service/journal"
+	client "github.com/moustafa19m/go_notes/client/journal_os"
+	f "github.com/moustafa19m/go_notes/pkg/flags"
+	service "github.com/moustafa19m/go_notes/service/journal"
 )
 
 const (
-	OUTPUT_FILE = "/Users/moustafamakhlouf/Documents/apple_interview/saved/journals.json"
+	OUTPUT_FILE = "/Users/moustafamakhlouf/Documents/go_notes/saved/journals.json"
 )
 
 var flags = []f.FlagDef{

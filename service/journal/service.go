@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	j "github.com/moustafa19m/apple_interview/pkg/journal"
+	j "github.com/moustafa19m/go_notes/pkg/journal"
 )
 
 // define a new interface for journal

@@ -1,3 +1,3 @@
-module github.com/moustafa19m/apple_interview/cmd/journal
+module github.com/moustafa19m/go_notes/cmd/journal
 
 go 1.21.4

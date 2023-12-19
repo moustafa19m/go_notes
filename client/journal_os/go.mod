@@ -1,3 +1,3 @@
-module github.com/moustafa19m/apple_interview/client/journal_os
+module github.com/moustafa19m/go_notes/client/journal_os
 
 go 1.21.4
